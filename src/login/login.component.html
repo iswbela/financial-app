@@ -1,0 +1,67 @@
+<!-- login-register.component.html -->
+<p-toast></p-toast>
+<div class="container" [class.right-panel-active]="isRightPanelActive">
+    <div class="form-container sign-up-container">
+      <form (ngSubmit)="onSubmitSignUp()">
+        <h1>Sign up</h1>
+        <p class="description">Your password must not be shorter than 8 characters or longer than 20 characters.</p>
+        <input 
+            type="text" 
+            placeholder="Name" 
+            [(ngModel)]="name" 
+            name="name" 
+            required 
+        />
+        <input 
+            type="email" 
+            placeholder="Email" 
+            [(ngModel)]="email" 
+            name="email" 
+            required 
+        />
+        <input 
+            type="password" 
+            placeholder="Password" 
+            [(ngModel)]="password" 
+            name="password" 
+            required 
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form (ngSubmit)="onSubmitSignIn()">
+        <h1>Sign in</h1>
+        <input 
+            type="email" 
+            placeholder="Email" 
+            [(ngModel)]="email" 
+            name="email" 
+            required 
+        />
+        <input 
+            type="password" 
+            placeholder="Password" 
+            [(ngModel)]="password" 
+            name="password" 
+            required 
+        />
+        <a href="#">Forgot your password?</a>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button type="button" class="ghost" (click)="togglePanel()">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button type="button" class="ghost" (click)="togglePanel()">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+<div class="home-container">
+  <div class="header">
+    <h1>Hello, {{username}}</h1>
+  </div>
+
+  <div class="balance-card">
+    <div class="balance-label">Balance</div>
+    <div class="balance-amount">${{balance.toFixed(2)}}</div>
+  </div>
+
+  <div class="transactions-container">
+    <h2>Transactions</h2>
+    
+    <div class="transaction-list">
+      <div class="transaction-item" *ngFor="let transaction of transactions">
+        <div class="transaction-date">
+          {{formatDate(transaction.date)}}
+        </div>
+        <div class="transaction-details">
+          <div class="transaction-description">{{transaction.description}}</div>
+          <div class="transaction-amount" [class.income]="isIncome(transaction.type)" [class.expense]="isExpense(transaction.type)">
+            <span *ngIf="isIncome(transaction.type)">+</span>
+            <span *ngIf="isExpense(transaction.type)">-</span>
+            ${{transaction.amount.toFixed(2)}}
+          </div>
+        </div>
+        <div class="transaction-icon" [class.income]="isIncome(transaction.type)" [class.expense]="isExpense(transaction.type)">
+          <span class="material-icons">{{getTransactionIcon(transaction.type)}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="transactions.length === 0" class="no-transactions">
+      No transactions yet
+    </div>
+  </div>
+
+  <button class="add-button" (click)="addTransaction()">
+    <span class="material-icons">add</span>
+  </button>
+</div>
