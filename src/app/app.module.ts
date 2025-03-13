@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from '../login/login.component';
-import { LoginService } from './shared/service/login.service';
+import { UsersService } from './shared/service/users.service';
 import { HttpClientModule } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +13,7 @@ import Aura from '@primeng/themes/aura';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
+import { LoginService } from './shared/service/login.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CommonModule } from '@angular/common';
   ],
   providers: [
     LoginService,
+    UsersService,
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
@@ -41,6 +43,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppModule {
   constructor(
+    private usersService: UsersService,
     private loginService: LoginService
   ) { }
 }

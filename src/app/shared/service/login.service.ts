@@ -5,34 +5,32 @@ import { UserLoginDTO } from "../dto/UserLoginDTO";
 
 @Injectable()
 export class LoginService {
-    private apiUrl = 'http://localhost:8080/users';
+    private apiUrl = 'http://localhost:8080';
 
     constructor(private http: HttpClient) { }
 
-    createUser(user: any): Observable<any> {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    logIn(userLoginDTO: UserLoginDTO): Observable<any> {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
     
         return this.http.post(
-            this.apiUrl + '/create', user, 
-            { headers, observe: 'response' })
-            .pipe(map(this.processReturn),
-            catchError(this.handleError));
-    }
-
-    logIn(userLoginDTO: UserLoginDTO){
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-        return this.http.post(
-            this.apiUrl + '/login', userLoginDTO, 
-            { headers, observe: 'response' })
-            .pipe(map(this.processReturn),
-            catchError(this.handleError));
+            this.apiUrl + '/login', 
+            userLoginDTO, 
+            { 
+                headers, 
+                observe: 'response', 
+                withCredentials: true
+            }
+        ).pipe(
+            map(this.processReturn),
+            catchError(this.handleError)
+        );
     }
 
     private processReturn(response: HttpResponse<any>){
         if(response.status < 200 || response.status >= 300){
             throw new Error('erro');
         }
+        console.log(response)
         return response;
     }
 
@@ -43,5 +41,4 @@ export class LoginService {
         }
         return observableThrowError(error);
     }
-
 }

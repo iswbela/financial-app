@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { UsersService } from '../app/shared/service/users.service';
+import { UserDTO } from '../app/shared/dto/UserDTO';
+import { filter, Observable } from 'rxjs';
 
 interface Transaction {
   id: number;
@@ -17,14 +21,44 @@ interface Transaction {
   imports: [CommonModule]
 })
 export class HomeComponent implements OnInit {
-  username: string = 'Alex';
+  username: string | null = null;
   balance: number = 1250.75;
   transactions: Transaction[] = [];
+  user: UserDTO = UserDTO.getInstance();
 
-  constructor() { }
+  constructor(
+    private router: Router, 
+    private usersService: UsersService,
+  ) {}
 
-  ngOnInit(): void {
-    // Populate with sample transactions
+  ngOnInit(): void {    
+    this.carregaUsuario();
+    this.defineTransactions();
+  }
+
+  carregaUsuario() {
+    // Check for user in current history state first (works on initial load)
+    const state = history.state;
+    if (state && state.user) {
+      this.user = state.user;
+      this.username = this.user.name;
+      console.log('User loaded from history state:', this.username);
+    }
+    
+    // Also subscribe to future navigation events - with explicit casting
+    (this.router.events as Observable<RouterEvent>).pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // For subsequent navigations, also check history state
+      const navState = history.state;
+      if (navState && navState.user) {
+        this.user = navState.user;
+        this.username = this.user.name;
+        console.log('User loaded from navigation event:', this.username);
+      }
+    });
+  }
+  defineTransactions(){
     this.transactions = [
       {
         id: 1,
@@ -79,6 +113,18 @@ export class HomeComponent implements OnInit {
     return date.toLocaleDateString('en-US', { 
       month: 'short', 
       day: 'numeric' 
+    });
+  }
+
+  fetchUser(userId: number) {
+    this.usersService.getUserById(userId).subscribe({
+      next: (data) => {
+        this.user = data;
+        console.log('Usuário encontrado:', data);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar usuário:', err);
+      }
     });
   }
 }
