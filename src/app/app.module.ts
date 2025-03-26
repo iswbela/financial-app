@@ -14,6 +14,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { LoginService } from './shared/service/login.service';
+import { TransactionsService } from './shared/service/transactions.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -27,11 +29,13 @@ import { LoginService } from './shared/service/login.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastModule,
-    CommonModule
+    CommonModule,
+    ModalModule.forRoot()
   ],
   providers: [
     LoginService,
     UsersService,
+    TransactionsService,
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
@@ -43,7 +47,5 @@ import { LoginService } from './shared/service/login.service';
 })
 export class AppModule {
   constructor(
-    private usersService: UsersService,
-    private loginService: LoginService
   ) { }
 }

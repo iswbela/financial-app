@@ -5,7 +5,7 @@
 
   <div class="balance-card">
     <div class="balance-label">Balance</div>
-    <div class="balance-amount">${{balance.toFixed(2)}}</div>
+    <div class="balance-amount">${{userBalance?.toFixed(2)}}</div>
   </div>
 
   <div class="transactions-container">
@@ -21,7 +21,7 @@
           <div class="transaction-amount" [class.income]="isIncome(transaction.type)" [class.expense]="isExpense(transaction.type)">
             <span *ngIf="isIncome(transaction.type)">+</span>
             <span *ngIf="isExpense(transaction.type)">-</span>
-            ${{transaction.amount.toFixed(2)}}
+            ${{transaction.amount}}
           </div>
         </div>
         <div class="transaction-icon" [class.income]="isIncome(transaction.type)" [class.expense]="isExpense(transaction.type)">
@@ -34,7 +34,6 @@
       No transactions yet
     </div>
   </div>
-
   <button class="add-button" (click)="addTransaction()">
     <span class="material-icons">add</span>
   </button>
