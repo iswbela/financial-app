@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { UsersService } from '../app/shared/service/users.service';
 import { UserDTO } from '../app/shared/dto/UserDTO';
 import { filter, Observable } from 'rxjs';
 import { TransactionsService } from '../app/shared/service/transactions.service';
+import { TransactionModalComponent } from './transactionModal/transactionModal.component';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ import { TransactionsService } from '../app/shared/service/transactions.service'
 })
 
 export class HomeComponent implements OnInit {
+  @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer!: ViewContainerRef;
+  private modalRef!: ComponentRef<TransactionModalComponent>;
 
   username: string | null = null;
   balance: number = 0;
@@ -94,7 +98,13 @@ export class HomeComponent implements OnInit {
   }
 
   addTransaction(): void {
-
+    if (!this.modalRef) {
+      this.modalRef = this.modalContainer.createComponent(TransactionModalComponent);
+      document.body.appendChild(this.modalRef.location.nativeElement);
+    }
+    
+    const modal = new Modal(document.getElementById('transactionModal')!);
+    modal.show();
   }
 
   getTransactionIcon(type: string): string {

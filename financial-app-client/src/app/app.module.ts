@@ -30,7 +30,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BrowserAnimationsModule,
     ToastModule,
     CommonModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    FormsModule 
   ],
   providers: [
     LoginService,
