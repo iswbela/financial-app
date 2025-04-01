@@ -65,36 +65,6 @@ export class HomeComponent implements OnInit {
         type: transactions.amount > 0 ? 'income' : 'expense'
       }));
     });
-    // this.transactions = [
-    //   {
-    //     id: 1,
-    //     date: new Date('2025-03-04'),
-    //     description: 'Salary',
-    //     amount: 2000,
-    //     type: 'income'
-    //   },
-    //   {
-    //     id: 2,
-    //     date: new Date('2025-03-03'),
-    //     description: 'Groceries',
-    //     amount: 85.25,
-    //     type: 'expense'
-    //   },
-    //   {
-    //     id: 3,
-    //     date: new Date('2025-03-02'),
-    //     description: 'Internet bill',
-    //     amount: 65,
-    //     type: 'expense'
-    //   },
-    //   {
-    //     id: 4,
-    //     date: new Date('2025-03-01'),
-    //     description: 'Freelance work',
-    //     amount: 400,
-    //     type: 'income'
-    //   }
-    // ];
   }
 
   addTransaction(): void {
@@ -102,7 +72,7 @@ export class HomeComponent implements OnInit {
       this.modalRef = this.modalContainer.createComponent(TransactionModalComponent);
       document.body.appendChild(this.modalRef.location.nativeElement);
     }
-    
+    this.modalRef.instance.user = this.user;
     const modal = new Modal(document.getElementById('transactionModal')!);
     modal.show();
   }
@@ -130,7 +100,6 @@ export class HomeComponent implements OnInit {
     this.usersService.getUserById(userId).subscribe({
       next: (data) => {
         this.user = data;
-        console.log('Usuário encontrado:', data);
       },
       error: (err) => {
         console.error('Erro ao buscar usuário:', err);
@@ -145,7 +114,7 @@ export class HomeComponent implements OnInit {
       })
       this.defineTransactions(this.user.id);
     } else {
-      console.log('sem user id')
+      console.error(Error)
     }
   }
 }

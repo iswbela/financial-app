@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, throwError as observableThrowError, catchError, map } from "rxjs";
 import { Injectable } from "@angular/core";
+import { Transaction } from "../model/Transaction";
 
 @Injectable()
 export class TransactionsService {
@@ -14,5 +15,9 @@ export class TransactionsService {
 
     getTransactionsByUser(userId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/getTransactionsByUser?userId=${userId}`);
+    }
+
+    createTransaction(transaction: Transaction){
+        return this.http.post<any>(`${this.apiUrl}/create`,transaction);
     }
 }
