@@ -7,13 +7,16 @@ import { filter, Observable } from 'rxjs';
 import { TransactionsService } from '../app/shared/service/transactions.service';
 import { TransactionModalComponent } from './transactionModal/transactionModal.component';
 import { Modal } from 'bootstrap';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [CommonModule]
+  imports: [CommonModule, ToastModule],
+  providers: [MessageService]
 })
 
 export class HomeComponent implements OnInit {
@@ -29,10 +32,17 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router, 
     private usersService: UsersService,
-    private transactionsService: TransactionsService
+    private transactionsService: TransactionsService,
+    private messageService: MessageService,
+    private toastModule: ToastModule
   ) {}
 
   ngOnInit(): void {    
+    this.openPopup('success', 'Success', 'Transaction created successfully.');
+    // if (localStorage.getItem('transactionAdded') === 'true') {
+    //   this.openPopup('success', 'Success', 'Transaction created successfully.');
+    //   localStorage.removeItem('transactionAdded'); // Limpa o estado para não exibir sempre
+    // }
     this.carregaUsuario();
   }
 
@@ -116,5 +126,9 @@ export class HomeComponent implements OnInit {
     } else {
       console.error(Error)
     }
+  }
+
+  openPopup(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity: severity, summary: summary, detail: detail });
   }
 }

@@ -59,6 +59,7 @@ export class TransactionModalComponent {
     this.transaction.userId = this.user.id;
     this.transactionService.createTransaction(this.transaction).subscribe(
       (result)=>{
+        localStorage.setItem('transactionAdded', 'true');
         window.location.reload();
       },
       (error)=>{

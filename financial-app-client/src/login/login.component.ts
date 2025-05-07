@@ -3,7 +3,7 @@ import { UsersService } from '../app/shared/service/users.service';
 import { UserCreationDTO } from '../app/shared/dto/UserCreationDTO';
 import { MessageService } from 'primeng/api';
 import { UserLoginDTO } from '../app/shared/dto/UserLoginDTO';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoginService } from '../app/shared/service/login.service';
 
 @Component({
